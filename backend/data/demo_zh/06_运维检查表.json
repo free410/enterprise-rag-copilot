@@ -1,0 +1,42 @@
+{
+  "system_name": "企业内部知识与文档 RAG Copilot",
+  "checklist": [
+    {
+      "category": "服务启动",
+      "items": [
+        "后端 uvicorn 服务已启动",
+        "前端 Vite 服务已启动",
+        "浏览器可访问 http://127.0.0.1:5173"
+      ]
+    },
+    {
+      "category": "认证",
+      "items": [
+        "默认管理员账号可登录",
+        "JWT token 正常返回",
+        "GET /api/auth/me 返回当前用户"
+      ]
+    },
+    {
+      "category": "文档与索引",
+      "items": [
+        "backend/data 中存在可用文档",
+        "POST /api/documents/reindex 执行成功",
+        "GET /api/index/status 返回 vector_count 大于 0"
+      ]
+    },
+    {
+      "category": "问答链路",
+      "items": [
+        "POST /api/chat 返回 answer",
+        "retrieved_chunks 中包含召回结果",
+        "source_files 中包含来源文件"
+      ]
+    }
+  ],
+  "recommended_provider": "mock",
+  "notes": [
+    "演示优先使用 mock，确保链路稳定。",
+    "若需要真实模型，可切换到 qwen、deepseek 或 llama。"
+  ]
+}

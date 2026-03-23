@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: rag-copilot-backend
+    env_file:
+      - .env
+    environment:
+      RAG_COPILOT_DATABASE_URL: ${RAG_COPILOT_DATABASE_URL:-sqlite:////app/data/rag_copilot.db}
+      RAG_COPILOT_VECTOR_STORE_DIR_OVERRIDE: ${RAG_COPILOT_VECTOR_STORE_DIR_OVERRIDE:-/app/data/faiss}
+      RAG_COPILOT_OLLAMA_BASE_URL: ${RAG_COPILOT_OLLAMA_BASE_URL:-http://ollama:11434}
+      RAG_COPILOT_INITIAL_ADMIN_USERNAME: ${RAG_COPILOT_INITIAL_ADMIN_USERNAME:-admin}
+      RAG_COPILOT_INITIAL_ADMIN_PASSWORD: ${RAG_COPILOT_INITIAL_ADMIN_PASSWORD:-change-this-password}
+      RAG_COPILOT_INITIAL_ADMIN_EMAIL: ${RAG_COPILOT_INITIAL_ADMIN_EMAIL:-admin@example.local}
+      RAG_COPILOT_SECRET_KEY: ${RAG_COPILOT_SECRET_KEY:-change-me-in-production}
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    volumes:
+      - ./backend/data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        VITE_API_BASE_URL: ${FRONTEND_VITE_API_BASE_URL:-http://localhost:8000/api}
+    container_name: rag-copilot-frontend
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${FRONTEND_PORT:-5173}:80"
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: rag-copilot-ollama
+    profiles: ["llm"]
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
+volumes:
+  ollama_data:

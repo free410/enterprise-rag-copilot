@@ -1,0 +1,49 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Env files
+.env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.venv/
+venv/
+
+# Node
+frontend/node_modules/
+frontend/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime data
+backend/data/*.db
+backend/data/*.sqlite
+backend/data/uploads/
+backend/data/faiss/
+backend/data/parsed/
+backend/data/embeddings/
+backend/data/logs/
+
+# Keep demo materials for showcase
+!backend/data/demo_zh/
+!backend/data/demo_zh/**
+!backend/data/demo_zh_web/
+!backend/data/demo_zh_web/**
+!backend/data/demo_manifest.json
+
+# Misc
+*.log

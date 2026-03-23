@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-03-23 20:38:39",
+  "local_documents": [
+    "demo_zh/01_项目概览.md",
+    "demo_zh/02_后端接口说明.md",
+    "demo_zh/03_RAG工作流说明.md",
+    "demo_zh/04_模块职责说明.md",
+    "demo_zh/05_变更说明.txt",
+    "demo_zh/06_运维检查表.json",
+    "demo_zh/07_演示问题清单.md"
+  ],
+  "web_documents": [
+    "demo_zh_web/help_aliyun_com_zh_api_gateway_configure_self_built_authenticati.md",
+    "demo_zh_web/cloud_tencent_com_document_product_1124_100982.md",
+    "demo_zh_web/support_huaweicloud_com_usermanual_apig_apig_03_0135_html.md"
+  ],
+  "web_fetch_errors": [],
+  "recommended_queries": [
+    "这个项目的核心目标是什么？",
+    "文档管理页支持哪些操作？",
+    "RAG 工作流是怎样的？",
+    "当本地模型不可用时系统会怎么处理？",
+    "系统设置页可以配置哪些内容？"
+  ]
+}
