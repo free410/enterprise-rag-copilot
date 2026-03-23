@@ -1,22 +1,74 @@
-# 企业内部知识与文档 RAG Copilot 系统
+# Enterprise RAG Copilot
 
-## 项目简介
-这是一个面向企业内部研发协作、知识沉淀和代码理解场景的本地化 RAG Copilot 后台系统。项目提供文档接入、知识切片、Embedding、FAISS 向量检索、本地模型问答、后台管理、登录认证与基础运维配置能力，适合用于企业私有知识库和研发支持平台的原型建设与作品展示。
+![Project Cover](docs/images/cover.svg)
+
+企业内部知识与文档 RAG Copilot 是一个面向研发协作、知识沉淀和代码理解场景的本地化后台系统。项目打通了文档接入、文本清洗、切片、Embedding、FAISS 检索、RAG 问答、本地模型接入和后台管理界面，适合做企业知识库原型、私有化 RAG 演示项目和简历作品。
+
+## 项目亮点
+
+- 前后端分离落地完整闭环：从登录认证、文档管理、索引构建，到智能问答、历史记录、系统设置全部可运行。
+- 支持本地模型与降级方案：可接入 Ollama 的 `qwen`、`deepseek`、`llama`，本地模型不可用时自动回退 `mock`，保证演示不断链。
+- 支持企业资料接入：可扫描本地 `README.md`、Markdown、TXT、JSON，也支持从中国站点抓取资料并自动入库。
+
+## 项目预览
+
+### 登录页
+
+![Login](docs/images/login.png)
+
+### 控制台首页
+
+![Dashboard](docs/images/dashboard.png)
+
+### 文档管理
+
+![Documents](docs/images/documents.png)
+
+### 智能问答
+
+![Chat](docs/images/chat.png)
+
+### 系统设置
+
+![Settings](docs/images/settings.png)
 
 ## 技术栈
-- 后端：Python 3.11、FastAPI、SQLAlchemy、JWT、FAISS、Ollama、Docker
-- 前端：React、TypeScript、Vite、React Router、Axios、Ant Design
-- 存储：SQLite（默认，可扩展 PostgreSQL）、本地文件目录、FAISS 索引文件
-- 部署：Docker、Docker Compose
+
+### 后端
+
+- Python 3.11+
+- FastAPI
+- SQLAlchemy
+- JWT 认证
+- Ollama
+- FAISS
+- Docker
+
+### 前端
+
+- React
+- TypeScript
+- Vite
+- React Router
+- Axios
+- Ant Design
+
+### 存储与运行
+
+- SQLite
+- 本地文件目录
+- FAISS 本地索引
+- Docker Compose
 
 ## 系统架构
+
 ```mermaid
 flowchart LR
-    A[React Admin Frontend] --> B[FastAPI API Layer]
-    B --> C[Auth Service JWT]
-    B --> D[Document Ingestion Service]
+    A[React Admin Frontend] --> B[FastAPI API]
+    B --> C[JWT Auth]
+    B --> D[Document Service]
     B --> E[RAG Service]
-    D --> F[Loader and Cleaner]
+    D --> F[Loader / Cleaner]
     D --> G[Chunk Splitter]
     D --> H[Embedding Engine]
     H --> I[FAISS Vector Store]
@@ -24,25 +76,28 @@ flowchart LR
     E --> H
     E --> I
     E --> J
-    E --> K[Ollama or Mock Provider]
+    E --> K[Ollama Provider / Mock Provider]
 ```
 
 ### 架构说明
-- 前端负责后台页面、登录态校验、文档管理、问答交互与系统配置。
-- 后端统一提供认证、文档接入、索引构建、问答、历史记录、控制台摘要与系统设置接口。
-- 文档进入系统后先做清洗和切块，再生成 Embedding 并写入 FAISS。
-- 元数据与历史记录保存在数据库中，原始文档和索引文件保存在本地目录。
-- 本地模型优先通过 Ollama 调用；如果本地模型不可用，系统自动回退到 `mock` 模式，保证演示链路可用。
 
-## 页面模块说明
-- 登录页：管理员用户名密码登录，成功后进入控制台。
-- 控制台首页：展示文档总数、已索引文档数、最近问答次数、当前可用模型、系统状态。
-- 文档管理：支持查看文档列表、上传文档、重建索引、删除文档。
-- 智能问答：支持输入问题、选择 Provider、展示回答、召回片段、来源文件和当前模型。
-- 历史记录：展示提问、回答摘要、模型、时间和来源文件。
-- 系统设置：支持查看和保存默认 Provider、默认 top_k、数据目录、索引目录。
+- 前端负责后台页面、登录态校验、文档上传、问答交互和系统设置展示。
+- 后端统一提供认证、文档接入、索引构建、问答、历史记录和摘要统计接口。
+- 文档进入系统后先做清洗和切分，再做 Embedding 和 FAISS 建索引。
+- 元数据和历史记录保存在数据库，原始资料与索引文件保存在本地目录。
+- 大模型优先通过 Ollama 调用，本地模型不可用时自动降级到 `mock`。
+
+## 页面模块
+
+- `登录页`：管理员用户名密码登录，登录成功后进入控制台。
+- `控制台首页`：展示文档总数、索引状态、最近问答、系统状态和最近活动。
+- `文档管理`：支持上传、搜索、删除、重建索引、一键抓取中国站点资料并自动入库。
+- `智能问答`：支持输入问题、选择 Provider、设置 `top_k`、查看最终回答和召回片段。
+- `历史记录`：查看提问、回答摘要、模型、来源文件和时间。
+- `系统设置`：配置默认 Provider、默认 `top_k`、数据目录和索引目录。
 
 ## 登录认证流程
+
 ```mermaid
 sequenceDiagram
     participant U as User
@@ -52,36 +107,48 @@ sequenceDiagram
 
     U->>F: 输入用户名和密码
     F->>B: POST /api/auth/login
-    B->>DB: 校验用户与密码哈希
+    B->>DB: 查询用户并校验密码哈希
     DB-->>B: 返回用户信息
     B-->>F: 返回 JWT access_token
-    F->>F: 存储 token 和用户信息
+    F->>F: 本地保存 token
     F->>B: GET /api/auth/me
-    B-->>F: 返回当前用户
+    B-->>F: 返回当前用户信息
     F-->>U: 跳转 /dashboard
 ```
 
-### 登录认证流程说明
+### 认证说明
+
 1. 前端调用 `POST /api/auth/login` 提交用户名和密码。
-2. 后端查询管理员用户，使用安全哈希校验密码。
-3. 校验通过后签发 JWT。
+2. 后端查询管理员账号并使用密码哈希校验。
+3. 校验成功后签发 JWT。
 4. 前端保存 token，并在后续请求中通过 `Authorization: Bearer <token>` 携带。
-5. 未登录访问后台路由时，前端自动跳转到 `/login`。
+5. 未登录访问后台路由时，前端自动跳转 `/login`。
 
 ## 文档接入流程
-1. 管理员上传 `README.md`、`Markdown`、`txt`、`json` 等文本型资料，或将资料放入 `backend/data/`。
-2. 后端 Loader 扫描文件，做文本清洗和结构整理。
-3. Splitter 按 chunk 规则切分文档。
-4. 为每个 chunk 生成元数据：
-   - 文件名
-   - 文件路径
-   - 文件类型
-   - chunk_id
-5. Embedding 模块生成向量。
-6. FAISS 构建或重建索引。
-7. 数据库记录文档元数据、chunk 关系、历史问答和系统配置。
 
-## RAG 工作流说明
+```mermaid
+flowchart TD
+    A[本地文档 / 中国站点资料] --> B[Loader 扫描]
+    B --> C[文本清洗]
+    C --> D[Chunk 切分]
+    D --> E[生成元数据]
+    E --> F[Embedding]
+    F --> G[FAISS 建索引]
+    E --> H[(SQLite 元数据表)]
+```
+
+### 当前支持的知识源
+
+- `README.md`
+- Markdown 文档
+- TXT 文本
+- 简单 JSON 文档
+- 接口说明文本
+- 变更说明文本
+- 中国站点网页资料抓取内容
+
+## RAG 工作流
+
 ```mermaid
 sequenceDiagram
     participant U as User
@@ -94,27 +161,55 @@ sequenceDiagram
     F->>B: POST /api/chat
     B->>B: Query Embedding
     B->>V: Top K 检索
-    V-->>B: 返回相关 Chunk
+    V-->>B: 返回相关 Chunks
     B->>B: 拼接 Prompt 和上下文
-    B->>M: 调用本地模型
+    B->>M: 调用模型生成回答
     M-->>B: 返回回答
     B->>B: 保存历史记录
     B-->>F: answer + retrieved_chunks + source_files + model_used
-    F-->>U: 展示回答和来源
+    F-->>U: 展示最终回答和来源
 ```
 
-### RAG 工作流说明
+### 工作流说明
+
 1. 用户输入问题并选择 Provider。
 2. 后端对 query 做 Embedding。
 3. 使用 FAISS 检索最相关的 `top_k` 文档块。
-4. 将检索片段拼接进受约束 Prompt。
-5. 调用 Ollama 模型生成回答。
-6. 如果 Ollama 不可用，则自动切换到 `mock` 模式。
-7. 返回最终回答、召回片段、来源文件和模型信息，并记录历史问答。
+4. 将召回片段拼接为受约束的 RAG Prompt。
+5. 调用 Ollama 或 Mock Provider 生成回答。
+6. 返回最终回答、召回片段、来源文件和模型信息。
+7. 保存本次问答历史，供控制台和历史页展示。
+
+## 核心接口
+
+### 认证
+
+- `POST /api/auth/login`
+- `GET /api/auth/me`
+
+### 文档与索引
+
+- `GET /api/documents`
+- `POST /api/documents/upload`
+- `POST /api/documents/reindex`
+- `DELETE /api/documents/{id}`
+- `GET /api/index/status`
+
+### 问答与历史
+
+- `POST /api/chat`
+- `GET /api/history`
+
+### 控制台与设置
+
+- `GET /api/dashboard/summary`
+- `GET /api/settings`
+- `POST /api/settings`
 
 ## 本地启动方式
 
 ### 1. 启动后端
+
 ```powershell
 cd backend
 python -m venv .venv
@@ -125,99 +220,103 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 ### 2. 启动前端
+
 ```powershell
 cd frontend
 npm install
 npm run dev
 ```
 
-如果 Windows 环境对中文路径敏感，可以临时使用映射盘符：
-
-```powershell
-subst X: "d:\codex\本地大模型驱动的企业代码与文档 RAG Copilot"
-cd /d X:\frontend
-npm install
-npm run dev
-```
-
 ### 3. 默认登录账号
+
 - 用户名：`admin`
 - 密码：使用你在 `.env` 中配置的 `RAG_COPILOT_INITIAL_ADMIN_PASSWORD`
+
+### 4. 演示建议顺序
+
+1. 登录后台。
+2. 进入文档管理页，点击“重新构建索引”。
+3. 或者点击“一键抓取中国站点资料并入库”。
+4. 进入智能问答页，先使用 `mock` 做演示。
+5. 在历史记录页查看刚才的问答结果。
 
 ## Docker 启动方式
 
 ### 1. 准备环境变量
+
 ```powershell
 Copy-Item .env.example .env
 ```
 
-### 2. 仅启动前后端，使用 mock 演示
+### 2. 使用 Mock 模式启动
+
 ```bash
 docker compose up --build
 ```
 
 启动后访问：
+
 - 前端：`http://localhost:5173`
-- 后端：`http://localhost:8000/docs`
+- 后端文档：`http://localhost:8000/docs`
 
 ### 3. 启动前后端 + Ollama
+
 ```bash
 docker compose --profile llm up --build -d
 ```
 
-如果需要拉取模型：
+如需拉取模型：
+
 ```bash
 docker exec -it rag-copilot-ollama ollama pull qwen2.5:7b
 docker exec -it rag-copilot-ollama ollama pull deepseek-r1:7b
 docker exec -it rag-copilot-ollama ollama pull llama3.1:8b
 ```
 
-## 没有本地模型时如何使用 mock 模式演示
-如果机器上没有安装 Ollama，或者没有下载任何模型，也可以完整演示系统：
+## 没有本地模型时如何演示
+
+如果机器上没有安装 Ollama，或者没有下载任何模型，也可以完整演示：
 
 1. 正常启动前后端。
-2. 上传文档并构建索引。
+2. 上传文档或重建索引。
 3. 在智能问答页选择 `mock` 作为 Provider。
-4. 提问后系统仍会执行：
+4. 系统仍会执行：
    - query embedding
    - FAISS 检索
    - 上下文拼接
-   - 返回基于检索结果的保守回答
+   - 返回基于召回结果的保守回答
 
 这意味着即使没有本地模型，也能完整展示“知识接入 + 向量索引 + 检索增强 + 问答返回”的业务闭环。
 
-## 项目亮点
-- 实现了企业知识库从文档接入、文本清洗、切块、Embedding、FAISS 检索到问答返回的完整闭环。
-- 支持本地模型与 `mock` 双模式，既满足真实本地化部署，也能在无模型环境下稳定演示。
-- 搭建了完整的后台管理系统，包含认证、控制台、文档管理、问答、历史记录、系统设置等模块。
-
-## 简历可写点
-- 设计并实现企业内部知识与文档 RAG Copilot 系统，完成从文档接入、Embedding、FAISS 检索到本地模型问答的全链路开发。
-- 基于 FastAPI + React + Ant Design 搭建前后端分离后台平台，支持 JWT 登录认证、文档索引管理、问答历史记录与系统配置。
-- 设计 Ollama / Mock 双 Provider 策略，在无本地模型环境下仍可稳定演示检索增强问答能力，提升系统可交付性和展示完整度。
-
-## 适合写进简历的 3 条项目亮点
-1. 从 0 到 1 搭建企业内部知识与文档 RAG Copilot，覆盖文档接入、向量索引、本地模型问答和后台系统管理。
-2. 设计基于 FAISS 的本地检索增强问答架构，并实现 Ollama 不可用时自动回退 `mock` 的鲁棒性方案。
-3. 落地 React + Ant Design 企业后台界面，打通登录认证、文档管理、索引构建、问答展示、历史记录与系统设置全流程。
-
 ## 项目目录概览
+
 ```text
 .
-├─ backend/
-│  ├─ app/
-│  ├─ data/
-│  ├─ Dockerfile
-│  └─ requirements.txt
-├─ frontend/
-│  ├─ src/
-│  ├─ Dockerfile
-│  └─ package.json
-├─ docker-compose.yml
-├─ .env.example
-└─ README.md
+├── backend/
+│   ├── app/
+│   ├── data/
+│   ├── scripts/
+│   ├── Dockerfile
+│   └── requirements.txt
+├── docs/
+│   └── images/
+├── frontend/
+│   ├── src/
+│   ├── Dockerfile
+│   └── package.json
+├── docker-compose.yml
+├── .env.example
+└── README.md
 ```
 
-## 当前版本说明
-- 当前系统设置页会将默认 Provider、默认 top_k、数据目录、索引目录保存到后端数据库，适合作为后台配置中心原型。
-- 当前索引与数据目录的运行时主配置仍以环境变量为准，后续可继续扩展为“保存后即时生效”的热更新机制。
+## 适合写进简历的 3 条亮点
+
+1. 从 0 到 1 设计并实现企业内部知识与文档 RAG Copilot，打通文档接入、向量索引、本地模型问答和后台管理全链路。
+2. 基于 FastAPI + React + Ant Design 落地前后端分离管理系统，支持 JWT 认证、文档管理、RAG 问答、历史记录和系统设置。
+3. 设计 Ollama / Mock 双 Provider 机制，在无本地模型环境下仍可完整演示检索增强问答流程，提升系统可交付性和展示稳定性。
+
+## 当前说明
+
+- 当前项目默认保留了演示用中文资料和中国站点抓取资料，便于直接跑通索引和问答。
+- `.env`、数据库、向量索引、上传文件、`node_modules` 和构建产物不会上传到 GitHub。
+- 如果你要把它继续扩展成正式项目，可以优先补全文档权限、多知识库隔离、异步任务队列和生产级存储方案。

@@ -1,0 +1,37 @@
+<svg width="1280" height="640" viewBox="0 0 1280 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1280" y2="640" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F172A"/>
+      <stop offset="1" stop-color="#14532D"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="rgba(255,255,255,0.18)"/>
+      <stop offset="1" stop-color="rgba(255,255,255,0.06)"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="640" rx="32" fill="url(#bg)"/>
+  <circle cx="1110" cy="110" r="160" fill="rgba(255,255,255,0.06)"/>
+  <circle cx="1180" cy="520" r="220" fill="rgba(255,255,255,0.05)"/>
+  <rect x="70" y="88" width="540" height="464" rx="28" fill="url(#card)" stroke="rgba(255,255,255,0.18)"/>
+  <text x="96" y="152" fill="#C7D2FE" font-size="24" font-family="'Segoe UI', 'PingFang SC', sans-serif" letter-spacing="3">ENTERPRISE KNOWLEDGE PLATFORM</text>
+  <text x="96" y="236" fill="#FFFFFF" font-size="64" font-weight="700" font-family="'Segoe UI', 'PingFang SC', sans-serif">企业内部知识与</text>
+  <text x="96" y="318" fill="#FFFFFF" font-size="64" font-weight="700" font-family="'Segoe UI', 'PingFang SC', sans-serif">文档 RAG Copilot</text>
+  <text x="96" y="392" fill="#D1FAE5" font-size="28" font-family="'Segoe UI', 'PingFang SC', sans-serif">面向研发协作、代码理解、知识检索与本地模型问答</text>
+  <text x="96" y="432" fill="#D1FAE5" font-size="28" font-family="'Segoe UI', 'PingFang SC', sans-serif">的一体化企业后台系统</text>
+
+  <rect x="694" y="92" width="500" height="140" rx="24" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.14)"/>
+  <text x="728" y="138" fill="#A7F3D0" font-size="18" font-family="'Segoe UI', 'PingFang SC', sans-serif">核心能力</text>
+  <text x="728" y="182" fill="#FFFFFF" font-size="24" font-weight="600" font-family="'Segoe UI', 'PingFang SC', sans-serif">文档接入 · 向量索引 · RAG 问答 · 本地模型 · 后台管理</text>
+
+  <rect x="694" y="260" width="236" height="126" rx="24" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.14)"/>
+  <text x="724" y="308" fill="#C7D2FE" font-size="18" font-family="'Segoe UI', 'PingFang SC', sans-serif">技术栈</text>
+  <text x="724" y="350" fill="#FFFFFF" font-size="24" font-weight="600" font-family="'Segoe UI', 'PingFang SC', sans-serif">FastAPI + React</text>
+
+  <rect x="958" y="260" width="236" height="126" rx="24" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.14)"/>
+  <text x="988" y="308" fill="#C7D2FE" font-size="18" font-family="'Segoe UI', 'PingFang SC', sans-serif">检索层</text>
+  <text x="988" y="350" fill="#FFFFFF" font-size="24" font-weight="600" font-family="'Segoe UI', 'PingFang SC', sans-serif">Embedding + FAISS</text>
+
+  <rect x="694" y="414" width="500" height="126" rx="24" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.14)"/>
+  <text x="724" y="462" fill="#C7D2FE" font-size="18" font-family="'Segoe UI', 'PingFang SC', sans-serif">模型接入</text>
+  <text x="724" y="504" fill="#FFFFFF" font-size="24" font-weight="600" font-family="'Segoe UI', 'PingFang SC', sans-serif">Ollama Provider / Mock Fallback</text>
+</svg>
