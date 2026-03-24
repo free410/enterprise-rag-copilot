@@ -2,6 +2,15 @@
 
 ![Project Cover](docs/images/cover.svg)
 
+[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115%2B-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-18-20232A?logo=react&logoColor=61DAFB)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Ant Design](https://img.shields.io/badge/Ant%20Design-5-1677FF?logo=ant-design&logoColor=white)](https://ant.design/)
+[![FAISS](https://img.shields.io/badge/Vector%20Store-FAISS-2C7BE5)](https://github.com/facebookresearch/faiss)
+[![Ollama](https://img.shields.io/badge/LLM-Ollama-111111)](https://ollama.com/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](#)
+
 企业内部知识与文档 RAG Copilot 是一个面向研发协作、知识沉淀和代码理解场景的本地化后台系统。项目打通了文档接入、文本清洗、切片、Embedding、FAISS 检索、RAG 问答、本地模型接入和后台管理界面，适合做企业知识库原型、私有化 RAG 演示项目和简历作品。
 
 ## 项目亮点
@@ -31,6 +40,25 @@
 ### 系统设置
 
 ![Settings](docs/images/settings.png)
+
+## 在线演示说明
+
+当前仓库暂未提供公开在线地址，主要原因是项目依赖本地文件目录、FAISS 索引和本地模型环境，更适合作为可本地跑通的企业知识库原型来展示。
+
+如果你想快速演示，可以直接使用下面两种方式：
+
+- 本地演示：按 README 中的“本地启动方式”启动前后端，使用示例资料和 `mock` 模式即可完整体验。
+- Docker 演示：执行 `docker compose up --build`，无需本地模型也能跑通上传、建索引和问答流程。
+
+### 推荐演示账号
+
+- 用户名：`admin`
+- 密码：使用你在 `.env` 中配置的 `RAG_COPILOT_INITIAL_ADMIN_PASSWORD`
+
+### 推荐演示模式
+
+- 没有本地模型时：在智能问答页选择 `mock`
+- 已安装 Ollama 时：可切换 `qwen`、`deepseek` 或 `llama`
 
 ## 技术栈
 
