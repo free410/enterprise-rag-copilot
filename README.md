@@ -23,23 +23,25 @@
 
 ### 登录页
 
-![Login](docs/images/login.png)
+![登录页](docs/images/login.png)
 
 ### 控制台首页
 
-![Dashboard](docs/images/dashboard.png)
+![控制台首页](docs/images/dashboard.png)
 
 ### 文档管理
 
-![Documents](docs/images/documents.png)
+![文档管理](docs/images/documents.png)
 
 ### 智能问答
 
-![Chat](docs/images/chat.png)
+![智能问答](docs/images/chat.png)
+
+### 历史记录
+![历史记录](docs/images/history.png)
 
 ### 系统设置
-
-![Settings](docs/images/settings.png)
+![系统设置](docs/images/settings-new.png)
 
 ## 在线演示说明
 
@@ -241,10 +243,9 @@ sequenceDiagram
 ```powershell
 cd backend
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+.\\.venv\\Scripts\\python.exe -m pip install -r requirements.txt
 Copy-Item .env.example .env
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+.\\scripts\\start_backend.ps1
 ```
 
 ### 2. 启动前端
